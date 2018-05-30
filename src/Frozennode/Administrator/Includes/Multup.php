@@ -71,6 +71,11 @@ class Multup {
 	private $cloud_driver = "";
 
 	/*
+	 *	Cloud upload options
+	 */
+	private $cloud_options = [];
+
+	/*
 	 * Sizing information for thumbs to create
 	 * array ( width, height, crop_type, path_to_save, quality)
 	 */
@@ -134,6 +139,13 @@ class Multup {
 		return $this;
 	}
 
+	public function cloudOptions($options = [])
+	{
+		$this->cloud_options = $options;
+
+		return $this;
+	}
+
 	/*
 	 *	Upload the image
 	 *	@return array of results
@@ -169,7 +181,7 @@ class Multup {
 
 		return $result;
 
-		if (!is_array($images)) {
+		if (!\is_array($images)) {
 
 			$this->image = array($this->input => $images);
 
@@ -218,8 +230,8 @@ class Multup {
 		} else {
 
 			if ($this->random == "random") {
-				if (is_callable($this->random_cb)) {
-					$filename = call_user_func($this->random_cb, $original_name);
+				if (\is_callable($this->random_cb)) {
+					$filename = \call_user_func($this->random_cb, $original_name);
 				} else {
 					$ext = File::extension($original_name);
 					$filename = $this->generate_random_filename() . '.' . $ext;
@@ -238,10 +250,10 @@ class Multup {
 			/* upload the file */
 			if ($this->cloud_driver) {
 				Storage::disk($this->cloud_driver)
-					->putFileAs($this->path, $this->image[$this->input], $filename);
+					->putFileAs($this->path, $this->image[$this->input], $filename, $this->cloud_options);
 				$save = $this->image[$this->input];
 			} else {
-				$save = $this->image[$this->input]->move($this->path, $filename);
+				$save = $this->image[$this->input]->move($this->path, $filename, $this->cloud_options);
 			}
 			//$save = Input::upload($this->input, $this->path, $filename);
 
@@ -249,7 +261,7 @@ class Multup {
 
 				$path = $this->path . $filename;
 
-				if (is_array($this->image_sizes)) {
+				if (\is_array($this->image_sizes)) {
 					$resizer = new Resize();
 					$resizes = $resizer->create($save, $this->path, $filename, $this->image_sizes);
 				}
@@ -296,7 +308,7 @@ class Multup {
 	 */
 	public function filename_callback($func)
 	{
-		if (is_callable($func)) {
+		if (\is_callable($func)) {
 			$this->random_cb = $func;
 		}
 
@@ -309,7 +321,7 @@ class Multup {
 	 */
 	public function after_upload($cb, $args = '')
 	{
-		if (is_callable($cb)) {
+		if (\is_callable($cb)) {
 			$this->upload_callback = $cb;
 			$this->upload_callback_args = $args;
 		} else {
@@ -351,12 +363,12 @@ class Multup {
 		if (empty($args['errors'])) {
 			/* add the saved image to the images array thing */
 
-			if (is_callable($this->upload_callback)) {
-				if (!empty($this->upload_callback_args) && is_array($this->upload_callback_args)) {
+			if (\is_callable($this->upload_callback)) {
+				if (!empty($this->upload_callback_args) && \is_array($this->upload_callback_args)) {
 					$args = array_merge($this->upload_callback_args, $args);
 				}
 
-				$args['callback_result'] = call_user_func($this->upload_callback, $args);
+				$args['callback_result'] = \call_user_func($this->upload_callback, $args);
 			}
 
 		}
