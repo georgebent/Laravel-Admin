@@ -18,28 +18,16 @@ New Version
 
 ## Composer
 
+To install Administrator as a Composer package to be used with Laravel 5.7, simply run:
+
+```sh
+composer require "exodusanto/administrator: 5.7.*"
+```
+
 To install Administrator as a Composer package to be used with Laravel 5.6, simply run:
 
 ```sh
 composer require "exodusanto/administrator: 5.6.*"
-```
-
-To install Administrator as a Composer package to be used with Laravel 5.5, simply run:
-
-```sh
-composer require "exodusanto/administrator: 5.5.*"
-```
-
-To install Administrator as a Composer package to be used with Laravel 5.4, simply run:
-
-```sh
-composer require "exodusanto/administrator: 5.4.*"
-```
-
-To install Administrator as a Composer package to be used with Laravel 5, simply run:
-
-```sh
-composer require "exodusanto/administrator: 5.*"
 ```
 
 Once it's installed, you can register the service provider in `config/app.php` in the `providers` array:
@@ -87,6 +75,12 @@ Administrator is released under the MIT License. See the LICENSE file for detail
 
 ## Recent Changelog
 
+### 5.7.0
+- Support: Laravel 5.7
+
+### 5.6.5
+- Added: Allow custom routes name (#23)
+
 ### 5.6.5
 - Support: PHP 7.2 (#22)
 
@@ -117,15 +111,3 @@ Administrator is released under the MIT License. See the LICENSE file for detail
     - **Test** resize: prevent stretch of image
     - **Incremental** naming: name*_n* if already exist
 - Bugfix: wysiwyg loading on settings
-
-### 5.0.11
-- Bugfix: Had to make the middleware additon backwards compatable
-- Docs: Added doc updates
-
-### 5.0.10
-- Bugfix: L5.2 changed the way url() works so added url('/') instead
-- Added: Support for middleware additions to the Admin routes via the administrator config
-- Testfix: Fixed failing tests
-
-### 5.0.9
-- Bugfix: Fix for datetimepicker partially being covered by top menu
